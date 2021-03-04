@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W09 Ponder</title>
+    <link rel="stylesheet" type="text/css" href="form.css">
+
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="grid-item header">
+            <h1>Postal Rate Calculator</h1>
+            <div class="grid-item menu"><br>
+                <form id="theForm" action="/results" method="POST">
+                    <label for="weight">Weight</label>
+                    <input type="text" id="weight" name="weight" required>
+                    <br>
+                    <label for="mailType">Mail Type:		</label>
+                    <select id="mailType" name="mailType">
+                        <option value="SLetter">Stamped Letter</option>
+                        <option value="MLetter">Metered Letter</option>
+                        <option value="Envelope">Large Envelope</option>
+                        <option value="Retail">First-Class Package Service—Retail</option>
+                    </select>
+                    <br>
+                    <button type="submit">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
