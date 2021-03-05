@@ -17,14 +17,18 @@
             <div class="grid-item menu"><br>
                 <form id="theForm" action="/results" method="POST">
                     <label for="weight">Weight</label>
-                    <input type="text" id="weight" name="weight" required>
+                    <input type="number" id="weight" name="weight" required>
                     <br>
+                    <input type="radio" name="weightType" value="ounce">
+                    <label for="ounce">Ounces</label><br>
+                    <input type="radio" name="weightType" value="pound">
+                    <label for="pound">Pounds</label><br>
                     <label for="mailType">Mail Type:		</label>
                     <select id="mailType" name="mailType">
-                        <option value="SLetter">Stamped Letter</option>
-                        <option value="MLetter">Metered Letter</option>
-                        <option value="Envelope">Large Envelope</option>
-                        <option value="Retail">First-Class Package Service—Retail</option>
+                        <option value="Stamped Letter">Stamped Letter</option>
+                        <option value="Metered Letter">Metered Letter</option>
+                        <option value="Large Envelope">Large Envelope</option>
+                        <option value="First-Class Package Service—Retail">First-Class Package Service—Retail</option>
                     </select>
                     <br>
                     <button type="submit">Submit</button>
