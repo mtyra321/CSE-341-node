@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="project.css">
+    <!-- <script src="./search.js"></script> -->
+</head>
+
+<body>
+    <div class="topbar">
+        <a href="./home.html">home</a>
+        <a href="./search.html">search</a>
+        <a href="">contact</a>
+    </div>
+    <h1>Search</h1>
+    <form>
+        <label for="searchBar">Name:</label>
+        <input type="text" id="searchBar">
+        <select id="type" name="type">
+            <option value="character">Character </option>
+            <option value="comic"> Comic Issue</option>
+            <option value="group"> Group</option>
+            <option value="event">Event</option>
+        </select>
+        <button id="button" type="button">Search</button>
+    </form>
+
+    <script>
+        document.getElementById("button").addEventListener("click", search)
+        const url = "https://gateway.marvel.com:443/v1/public/characters?name=";
+
+        const key = "f4115560196924074bec30f1c2fb50c8";
+        const pkey = '534e8d4706e61fe271dead8840c7ee181fd87fe5';
+        var web = '';
+
+        function search(event) {
+            console.log("search");
+            console.log("event is = " + event);
+            var timestamp = event.timeStamp;
+            var name = document.getElementById("searchBar").value;
+            web = url + name + '&ts=' + timestamp + '&apikey=' + key + '&hash=' + pkey;
+
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    console.log(myArr)
+                    myFunction(myArr);
+                }
+            };
+            xmlhttp.open("GET", web, true);
+            xmlhttp.send();
+            event.preventDefault();
+        }
+    </script>
+</body>
+
+</html>
