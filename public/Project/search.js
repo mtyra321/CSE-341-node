@@ -17,30 +17,36 @@ function onload() {
     });
     var web = '';
 }
+var typeDict = {
+    "Character": "name",
+    "Comic": "title",
+    "Event": "title",
+    "Series": "title"
+
+};
+var urlDict = {
+    "Character": "characters?nameStartsWith=",
+    "Comic": "comics?titleStartsWith=",
+    "Event": "series?titleStartsWith=",
+    "Series": "events?nameStartsWith="
+
+};
+var nameDict = {
+    "Character": "characters",
+    "Comic": "comics",
+    "Event": "events",
+    "Series": "series"
+
+};
 
 function search(event) {
-    console.log("search");
-    console.log("event is = " + event);
     var timestamp = event.timeStamp;
     var name = document.getElementById("searchBar").value;
     var hash = md5(timestamp + pkey + key);
 
     //            var hash = md5(timestamp + pkey + key);
     var type = document.getElementById("type").value;
-    var urlType = "";
-    console.log("type is " + type);
-    if (type == "character") {
-        urlType = 'characters?nameStartsWith=';
-    } else if (type == "comic") {
-        urlType = 'comics?titleStartsWith=';
-
-    } else if (type == "series") {
-        urlType = 'series?titleStartsWith=';
-
-    } else if (type == "event") {
-        urlType = "events?nameStartsWith=";
-    }
-    web = url + urlType + name + '&ts=' + timestamp + '&apikey=' + key + '&hash=' + hash;
+    web = url + urlDict[type] + name + '&ts=' + timestamp + '&apikey=' + key + '&hash=' + hash;
 
     var xmlhttp = new XMLHttpRequest();
 
@@ -68,60 +74,89 @@ function removeAllChildNodes(parent) {
 }
 
 function display_single_result(type, result) {
-    if (type == "character") {
-        return display_single_character(result);
-    } else if (type == "comic") {
-        return display_single_comic(result);
+    let name = document.createElement('p');
+    name.innerText = result[typeDict[type]];
+    let div = document.createElement('div');
+    div.classList.add("result");
+    div.appendChild(name);
+    div.onclick = function() {
+        let details = create_details(type, result);
+        details.style.display = "block"
+        let found = false;
 
-    } else if (type == "series") {
-        return display_single_comic_series(result);
+        div.childNodes.forEach(element => {
+            if (element.innerHTML == details.innerHTML) {
+                div.removeChild(element)
+                found = true;
+            }
+        });
+        if (found == false) {
+            div.appendChild(details);
 
-    } else if (type == "event") {
-        return display_single_event(result);
+        }
+
+    };
+    return div;
+}
+
+
+
+
+function create_details(type, result) {
+    console.log(result)
+    let outer_div = document.createElement('div');
+    let details = document.createElement('div');
+    let span = document.createElement('span');
+    span.innerText = 'X';
+    span.classList.add("close");
+    outer_div.classList.add("details");
+    details.classList.add("details-content")
+    span.onclick = function() {
+        outer_div.style.display = "none";
     }
+    window.onclick = function(event) {
+        if (event.target == outer_div) {
+            outer_div.style.display = "none";
+        }
+    }
+    let details_content = document.createElement('p');
+    details_content.innerText = display_all_details(type, result)
+
+    details.appendChild(span);
+    details.appendChild(details_content);
+    outer_div.appendChild(details);
+    return outer_div;
 }
 
+function display_all_details(type, result) {
+    var details_content = type + " Details: ";
+    details_content += result[typeDict[type]] + '\n\n';
+    details_content += result.description + '\n\n';
+    for (var element in typeDict) {
+        console.log("Element is " + element)
+        if (type != element) {
+            details_content += nameDict[element] + ": \n";
+            var put_it = true;
+            if (type == "Series") {
+                if (element == "Event") {
+                    put_it = false
+                }
+            }
+            if (type == "Event" || type == "Comic") {
+                if (element == "Series") {
+                    put_it = false
+                }
+            }
+            if (put_it == true) {
+                for (var index = 0; index < result[nameDict[element]].items.length; index++) {
+                    var single_comic = result[nameDict[element]].items[index];
+                    console.log(single_comic)
+                    details_content += single_comic.name + '\n';
+                }
+            }
+            details_content += '\n';
+        }
+    }
 
-function display_single_character(result) {
-    console.log("displaying single result");
-    console.log(result);
-    let div = document.createElement('div');
-    div.classList.add("result");
-    let name = document.createElement('p');
-    name.innerText = result.name;
-    div.appendChild(name);
-    return div;
-}
-
-function display_single_comic(result) {
-    console.log("displaying single result");
-    console.log(result);
-    let div = document.createElement('div');
-    div.classList.add("result");
-    let name = document.createElement('p');
-    name.innerText = result.title;
-    div.appendChild(name);
-    return div;
-}
-
-function display_single_comic_series(result) {
-    console.log("displaying single result");
-    console.log(result);
-    let div = document.createElement('div');
-    div.classList.add("result");
-    let name = document.createElement('p');
-    name.innerText = result.title;
-    div.appendChild(name);
-    return div;
-}
-
-function display_single_event(result) {
-    console.log("displaying single result");
-    console.log(result);
-    let div = document.createElement('div');
-    div.classList.add("result");
-    let name = document.createElement('p');
-    name.innerText = result.title;
-    div.appendChild(name);
-    return div;
+    return details_content;
 }
