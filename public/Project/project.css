@@ -37,20 +37,28 @@ form {
     /* Full width */
     height: 100%;
     /* Full height */
-    overflow: auto;
     /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
     /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
     /* Black w/ opacity */
+    overflow-y: scroll;
 }
 
 .details-content {
     background-color: #fefefe;
     margin: auto;
+    overflow: visible;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+}
+
+.thumbnail {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    align-items: center;
 }
 
 .grid-container {
@@ -70,50 +78,9 @@ form {
     padding: 20px;
 }
 
-.logo {
-    padding: 2px;
-}
-
-.normal {
-    font-size: 20px;
-    text-align: left;
-    padding: 5px;
-}
-
-.importantest {
-    font-size: 40px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.error {
-    color: rgb(236, 9, 9);
-    font-family: Lucida Console, Courier, monospace;
-    visibility: hidden;
-}
-
 
 /* anything lower than max width will happen,
  anything higher than min width */
-
-@media screen and (min-width:900px) {
-    .header {
-        grid-column: 1 / span 5;
-        grid-row: 1;
-    }
-    .menu {
-        grid-column: 1/ span 3;
-        grid-row: 2 /span 2;
-    }
-    .main {
-        grid-column: 4 / span 2;
-        grid-row: 2/ span 2;
-    }
-    .footer {
-        grid-column: 1 / span 5;
-        grid-row: 4;
-    }
-}
 
 .header {
     font-size: 20px;
@@ -121,51 +88,25 @@ form {
 
 .topbar {
     width: 100%;
-    background-color: rgb(79, 92, 102);
+    background-color: rgb(138, 14, 14);
     height: 130px;
     display: inline-block;
-    text-align: center;
 }
 
-.topbar a {
+.topbar h1 {
     color: #f2f2f2;
-    text-align: center;
+    margin-left: 30%;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 40px;
 }
 
-.topbar a:hover {
-    background-color: rgb(212, 100, 100);
+.result .name:hover {
+    transform: scale(1.02);
 }
 
 h1 {
-    text-align: center;
-}
-
-.a {
-    grid-column: 1 / span 2;
-    grid-row: 1 /span 2;
-}
-
-.b {
-    grid-column: 3 / span 2;
-    grid-row: 1 /span 2;
-}
-
-.c {
-    grid-column: 1 / span 2;
-    grid-row: 3 /span 2;
-}
-
-.d {
-    grid-column: 3 / span 2;
-    grid-row: 3 /span 2;
-}
-
-h2 {
-    text-align: center;
-    font-weight: bold;
+    margin-left: 30%;
 }
 
 
@@ -175,20 +116,11 @@ rgba(0, 0, 0, 0.5)), url(animal.jpg); */
 
 /* slideshow */
 
-* {
-    box-sizing: border-box;
-}
-
 body {
     font-family: Verdana, sans-serif;
-}
-
-.mySlides {
-    display: none;
-}
-
-img {
-    vertical-align: middle;
+    overflow: auto;
+    height: 110%;
+    margin-bottom: 0.01em;
 }
 
 

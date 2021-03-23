@@ -46,7 +46,7 @@ function search(event) {
 
     //            var hash = md5(timestamp + pkey + key);
     var type = document.getElementById("type").value;
-    web = url + urlDict[type] + name + '&ts=' + timestamp + '&apikey=' + key + '&hash=' + hash;
+    web = url + urlDict[type] + name + '&ts=' + timestamp + '&limit=100&apikey=' + key + '&hash=' + hash;
 
     var xmlhttp = new XMLHttpRequest();
 
@@ -75,6 +75,7 @@ function removeAllChildNodes(parent) {
 
 function display_single_result(type, result) {
     let name = document.createElement('p');
+    name.classList.add("name")
     name.innerText = result[typeDict[type]];
     let div = document.createElement('div');
     div.classList.add("result");
@@ -119,23 +120,32 @@ function create_details(type, result) {
             outer_div.style.display = "none";
         }
     }
-    let details_content = document.createElement('p');
-    details_content.innerText = display_all_details(type, result)
+
 
     details.appendChild(span);
-    details.appendChild(details_content);
+    details.appendChild(display_all_details(type, result));
     outer_div.appendChild(details);
     return outer_div;
 }
 
 function display_all_details(type, result) {
-    var details_content = type + " Details: ";
-    details_content += result[typeDict[type]] + '\n\n';
-    details_content += result.description + '\n\n';
+    var details = document.createElement("div");
+    details.classList.add("character_details")
+    var details_content = document.createElement('p')
+    details_content.innerHTML += type + " Details: ";
+    details_content.innerHTML += result[typeDict[type]] + '<br><br>';
+    details_content.innerHTML += result.description + '<br><br>';
+    details.appendChild(details_content)
+    var image = document.createElement("img");
+    image.classList.add("thumbnail")
+    image.src = result.thumbnail.path + "." + result.thumbnail.extension
+    details.appendChild(image)
     for (var element in typeDict) {
-        console.log("Element is " + element)
+        var div_type = document.createElement('div');
+        var types = document.createElement('p');
+        types.classList.add(element)
         if (type != element) {
-            details_content += nameDict[element] + ": \n";
+            types.innerHTML += nameDict[element] + ": <br>";
             var put_it = true;
             if (type == "Series") {
                 if (element == "Event") {
@@ -150,13 +160,26 @@ function display_all_details(type, result) {
             if (put_it == true) {
                 for (var index = 0; index < result[nameDict[element]].items.length; index++) {
                     var single_comic = result[nameDict[element]].items[index];
-                    console.log(single_comic)
-                    details_content += single_comic.name + '\n';
+                    types.innerHTML += single_comic.name + '<br>';
                 }
+            } else {
+                break
             }
-            details_content += '\n';
+            types.innerHTML += '<br>';
+            div_type.appendChild(types);
+            details.appendChild(div_type);
         }
-    }
 
-    return details_content;
+
+    }
+    for (x in result.urls) {
+        var link = document.createElement('a')
+        link.href = result.urls[x].url
+        link.innerText = result.urls[x].type
+        console.log("x is " + x)
+        details.appendChild(link)
+        details.innerHTML += '<br><br>'
+    }
+    details.innerHTML += '<br><br><br><br><br>';
+    return details;
 }
